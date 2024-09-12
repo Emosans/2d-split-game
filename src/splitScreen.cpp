@@ -17,26 +17,31 @@ void SplitScreen::detectCollisions(PlayerSplitScreen* player,Object* object){
                 //return "Right"; // Player is colliding from the right
                 printf("Right");
                 collisionDirection="right";
+                object->pos.x -= 2.0f;
+                object->rect.x = object->pos.x;
             } else {
                 //return "Left"; // Player is colliding from the left
                 printf("Left");
                 collisionDirection="left";
+                object->pos.x += 2.0f;
+                object->rect.x = object->pos.x;
             }
         } else {
             if (deltaY > 0.0f) {
                 //return "Bottom"; // Player is colliding from the bottom
                 printf("Bottom");
                 collisionDirection="bottom";
+                object->pos.y -= 2.0f;
+                object->rect.y = object->pos.y;
             } else {
                 //return "Top"; // Player is colliding from the top
                 printf("Top");
                 collisionDirection="top";
+                object->pos.y += 2.0f;
+                object->rect.y = object->pos.y;
             }
         }
-
-
-        object->pos.x += 2.0f;
-        object->rect.x = object->pos.x;
+        
         object->isInteracted = true;
     }
 }

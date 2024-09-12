@@ -14,6 +14,11 @@ struct Object{
     bool isInteracted;
 };
 
+struct EndPoint{
+    Rectangle rect;
+    Vector2 pos;
+};
+
 class SplitScreen{
 public:
     void detectCollisions(PlayerSplitScreen* player,Object* object);

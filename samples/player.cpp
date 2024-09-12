@@ -1,4 +1,4 @@
-#include "../include/Player.hpp"
+#include "../samples/Player.hpp"
 #define PLAYER_JUMP_SPD 350.0f
 #define PLAYER_HOR_SPD 200.0f
 
@@ -36,4 +36,4 @@ void Player::UpdatePlayer(PlayerStruct* player,EnvItems *envItems, int envItemsL
         player->jump = false;
     } else player->jump = true;
 
-}
+};
