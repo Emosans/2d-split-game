@@ -12,6 +12,7 @@ struct Object{
     Rectangle rect;
     Vector2 pos;
     bool isInteracted;
+    bool targetActive;
 };
 
 struct EndPoint{
@@ -22,6 +23,7 @@ struct EndPoint{
 class SplitScreen{
 public:
     void detectCollisions(PlayerSplitScreen* player,Object* object);
+    void detectCollisionsWithEndpoint(Object* object,EndPoint* endPoint);
     string getCollisionValue();
 private:
     float playerSpeed = 3.0f;

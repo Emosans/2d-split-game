@@ -23,9 +23,11 @@ int main(){
     Object object1={0};
     object1.pos={300,200};
     object1.rect = {object1.pos.x,object1.pos.y,40,40};
+    object1.targetActive=true;
     Object object2={0};
     object2.pos={300,200};
     object2.rect = {object2.pos.x,object2.pos.y,40,40};
+    object2.targetActive=true;
 
     randomX=GetRandomValue(0,screenWidth/2-40);
     randomY = GetRandomValue(0,screenHeight/2-40);
@@ -126,6 +128,10 @@ int main(){
             object2.isInteracted=false;
         }
 
+        //detect collisions with the endpoint
+        objectCollision.detectCollisionsWithEndpoint(&object1,&endPoint);
+        objectCollision.detectCollisionsWithEndpoint(&object2,&endPoint);
+
         //update rect x and y pos acc to changes in input
         player1.rect.x = player1.pos.x;
         player1.rect.y = player1.pos.y;
@@ -149,7 +155,9 @@ int main(){
             DrawLineV((Vector2){0, (float)40*i}, (Vector2){ (float)screenWidth, (float)40*i}, LIGHTGRAY);
         }
         DrawRectangleRec(player1.rect, RED);
-        DrawRectangleRec(object1.rect,GRAY);
+        if(object1.targetActive){
+            DrawRectangleRec(object1.rect,GRAY);
+        }
         DrawRectangleRec(endPoint.rect,BLACK);
         EndMode2D();
         EndTextureMode();
@@ -168,7 +176,9 @@ int main(){
             DrawLineV((Vector2){0, (float)40*i}, (Vector2){ (float)screenWidth, (float)40*i}, LIGHTGRAY);
         }
         DrawRectangleRec(player2.rect, BLUE);
-        DrawRectangleRec(object2.rect,GRAY);
+        if(object2.targetActive){
+            DrawRectangleRec(object2.rect,GRAY);
+        }
         DrawRectangleRec(endPoint.rect,BLACK);
         EndMode2D();
         EndTextureMode();

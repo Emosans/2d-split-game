@@ -47,6 +47,12 @@ void SplitScreen::detectCollisions(PlayerSplitScreen* player,Object* object){
 }
 }
 
+void SplitScreen::detectCollisionsWithEndpoint(Object* object,EndPoint* endPoint){
+    if(CheckCollisionRecs(object->rect,endPoint->rect)){
+        object->targetActive=false;
+    }
+}
+
 string SplitScreen::getCollisionValue(){
     return collisionDirection;
 }
