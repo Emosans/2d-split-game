@@ -7,6 +7,7 @@ int main(){
     const int screenHeight = 440;
     float gameTime=60.0f;
     int randomX,randomY;
+    float fadeOpacity = 0.0f;
 
     InitWindow(screenWidth,screenHeight,"2d-split");
 
@@ -58,11 +59,6 @@ int main(){
 
     while(!WindowShouldClose()){
         gameTime-=GetFrameTime();
-
-        if(gameTime<=0.0f){
-            CloseWindow();
-            exit(0);
-        }
 
         if (IsKeyDown(KEY_S)) player1.pos.y += 3.0f;
         else if (IsKeyDown(KEY_W)) player1.pos.y -= 3.0f;
@@ -132,6 +128,11 @@ int main(){
         objectCollision.detectCollisionsWithEndpoint(&object1,&endPoint);
         objectCollision.detectCollisionsWithEndpoint(&object2,&endPoint);
 
+        if(!object1.targetActive && !object2.targetActive || gameTime<=0.0f){
+            fadeOpacity += 0.01f;
+            if(fadeOpacity>1.0f) fadeOpacity=1.0f;
+        }
+
         //update rect x and y pos acc to changes in input
         player1.rect.x = player1.pos.x;
         player1.rect.y = player1.pos.y;
@@ -192,6 +193,16 @@ int main(){
 
         DrawRectangle(GetScreenWidth()/2 - 2, 0, 4, GetScreenHeight(), LIGHTGRAY);
         DrawText(TextFormat("Time left %.2f",gameTime),630,20,20,RED);
+
+        if(!object1.targetActive && !object2.targetActive){
+            DrawRectangle(0,0,screenWidth,screenHeight,Fade(BLACK,fadeOpacity));
+            DrawText("You have won the Game!!",170,200,40,GREEN);
+        }
+
+        if(gameTime<=0.0f){
+            DrawRectangle(0,0,screenWidth,screenHeight,Fade(BLACK,fadeOpacity));
+            DrawText("GAME OVER",270,200,40,RED);
+        }
         EndDrawing();
     }
     UnloadRenderTexture(screenCamera1); // Unload render texture
