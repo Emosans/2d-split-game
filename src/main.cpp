@@ -1,5 +1,6 @@
 #include "../bin/include/raylib.h"
 #include "../include/SplitScreen.hpp"
+#include "../include/GameState.hpp"
 #include<math.h>
 
 int main(){
@@ -12,6 +13,7 @@ int main(){
     InitWindow(screenWidth,screenHeight,"2d-split");
 
     SplitScreen objectCollision;
+    GameState currentState;
     //Rectangle endPoint;
 
     PlayerSplitScreen player1={0};
@@ -58,6 +60,12 @@ int main(){
     SetTargetFPS(60);
 
     while(!WindowShouldClose()){
+
+        //save current state
+        if(IsKeyDown(KEY_W)||IsKeyDown(KEY_A)||IsKeyDown(KEY_S)||IsKeyDown(KEY_D)||IsKeyDown(KEY_UP)||IsKeyDown(KEY_LEFT)||IsKeyDown(KEY_DOWN)||IsKeyDown(KEY_RIGHT)){
+            currentState.saveGameState(player1.pos,player2.pos,object1.pos,object2.pos);
+        }
+
         gameTime-=GetFrameTime();
 
         if (IsKeyDown(KEY_S)) player1.pos.y += 3.0f;
@@ -69,6 +77,13 @@ int main(){
         else if (IsKeyDown(KEY_DOWN)) player2.pos.y += 3.0f;
         if (IsKeyDown(KEY_RIGHT)) player2.pos.x += 3.0f;
         else if (IsKeyDown(KEY_LEFT)) player2.pos.x -= 3.0f;
+
+        
+
+        //undo logic
+        if(IsKeyDown(KEY_U)){
+            currentState.undoGameState(player1.pos,player2.pos,object1.pos,object2.pos);
+        }
 
         //check collisions with player and original object
         objectCollision.detectCollisions(&player1,&object1);
@@ -141,6 +156,8 @@ int main(){
 
         cameraForPlayer1.target = (Vector2){ player1.pos.x, player1.pos.y };
         cameraForPlayer2.target = (Vector2){ player2.pos.x, player2.pos.y };
+
+        
 
         BeginTextureMode(screenCamera1);
         ClearBackground(RAYWHITE);
